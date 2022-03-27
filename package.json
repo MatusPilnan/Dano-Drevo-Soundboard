@@ -1,0 +1,29 @@
+{
+  "name": "dano-drevo-soundboard",
+  "version": "1.0.0",
+  "description": "",
+  "source": "src/index.html",
+  "dependencies": {
+    "elm": "^0.19.1-5"
+  },
+  "devDependencies": {
+    "parcel": "^2.4.0",
+    "postcss": "^8.4.12",
+    "tailwindcss": "^3.0.23"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "parcel --open",
+    "build": "parcel build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MatusPilnan/Dano-Drevo-Soundboard.git"
+  },
+  "author": "Matus Pilnan",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/MatusPilnan/Dano-Drevo-Soundboard/issues"
+  },
+  "homepage": "https://github.com/MatusPilnan/Dano-Drevo-Soundboard#readme"
+}
