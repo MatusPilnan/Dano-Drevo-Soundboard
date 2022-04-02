@@ -7,15 +7,17 @@
     "elm": "^0.19.1-5"
   },
   "devDependencies": {
+    "@parcel/transformer-elm": "^2.4.1",
+    "express": "^4.17.3",
     "parcel": "^2.4.0",
     "postcss": "^8.4.12",
-    "tailwindcss": "^3.0.23",
-    "@parcel/transformer-elm": "^2.4.0"
+    "tailwindcss": "^3.0.23"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "parcel --open",
-    "build": "parcel build"
+    "start": "parcel",
+    "build": "parcel build",
+    "docker": "docker run --rm -it -v ${PWD}:/app -p 1234:1234 --name dd-soundboard-dev node bash"
   },
   "repository": {
     "type": "git",

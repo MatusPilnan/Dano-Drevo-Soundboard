@@ -1,0 +1,17 @@
+[
+  {
+    "title": "Fascinujúce!",
+    "sound": "/static/sounds/fascinujuce.mp3",
+    "id": "1"
+  },
+  {
+    "title": "Ta ťa vitam tu doma",
+    "sound": "/static/sounds/fascinujuce.mp3",
+    "id": "2"
+  },
+  {
+    "title": "Urážka koňa",
+    "sound": "/static/sounds/fascinujuce.mp3",
+    "id": "3"
+  }
+]
