@@ -33,7 +33,7 @@ jobs:
 
       - name: Build Elm app and Styles
         run: |
-          npm run build
+          npm run build -- --public-url ./
 
       - uses: actions/upload-artifact@v2.3.1
         with:
