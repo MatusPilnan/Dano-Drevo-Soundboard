@@ -164,5 +164,23 @@
     "title": "V\u017edy sa potom posere\u0161",
     "id": "b0a9a4e1-d585-4e0c-a472-ffb4db3afacf",
     "sound": "/static/sounds/vzdy-sa-potom-poseres.mp3"
+  },
+  {
+    "title": "Dole gace",
+    "id": "4a139f2e-ea07-432e-95df-debc8b17bd0d",
+    "sound": "/static/sounds/dole-gace.mp3",
+    "icon": "/static/icons/dole-gace.png"
+  },
+  {
+    "title": "RRRRRRRRR",
+    "id": "93494447-686d-4548-a1b4-5673de422733",
+    "sound": "/static/sounds/rrrrrrrrr.mp3",
+    "icon": "/static/icons/rrrrrrrrr.png"
+  },
+  {
+    "title": "V\u00edrusov\u00e9 choroby",
+    "id": "e67e099f-cbb8-44ca-9c61-21696d3095fd",
+    "sound": "/static/sounds/virusove-choroby.mp3",
+    "icon": "/static/icons/virusove-choroby.png"
   }
 ]
