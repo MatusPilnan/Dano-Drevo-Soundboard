@@ -20,7 +20,6 @@ def create_sound_from_video(
     ):
     video_file = video_file.strip('"')
     with mp.VideoFileClip(video_file) as video:
-
         if duration > 0:
             video = video.subclip(t_start=start_sec, t_end=start_sec + duration)
         else:
@@ -77,6 +76,24 @@ def add_sound(
     with open(sounds_file, "w", encoding='utf-8') as f: 
         json.dump(sounds, f, indent=2)
         
+
+@app.command("convert")
+def convert_audio_files(target: str = '.mp3', sounds_file: str = "content/index.json", delete: bool = True):
+    with open(sounds_file, "r", encoding='utf-8') as f: 
+        sounds = json.load(f)
+
+    for sound in sounds:
+        with mp.AudioFileClip('content' + sound["sound"]) as audio:
+            new_filename = ".".join(sound["sound"].split(".")[:-1]) + target
+            typer.echo(f"Converting '{sound['sound']}' --> '{new_filename}'")
+            audio.write_audiofile('content' + new_filename)
+            os.unlink('content/' + sound["sound"])
+            sound["sound"] = new_filename
+
+    with open(sounds_file, "w", encoding='utf-8') as f: 
+        json.dump(sounds, f, indent=2)
+
+
 
 
 if __name__ == "__main__":
