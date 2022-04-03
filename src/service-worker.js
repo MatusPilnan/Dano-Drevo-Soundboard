@@ -8,6 +8,10 @@ async function install() {
   for (const sound of sounds) {
     const url = new URL(flags.apiBase + sound.sound);
     await cache.add(url.pathname)
+    if (sound.icon) {
+      const iconUrl = new URL(flags.apiBase + sound.icon);
+      await cache.add(iconUrl.pathname)
+    }
   }
   await cache.addAll(manifest);
 }

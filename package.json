@@ -10,7 +10,11 @@
     "theme": "#0d9488",
     "generateIconOptions": {
       "baseIcon": "./public/dano.png",
-      "sizes": [192, 384, 512],
+      "sizes": [
+        192,
+        384,
+        512
+      ],
       "genFavicons": true
     }
   },
@@ -20,6 +24,8 @@
     "parcel-config-pwa-manifest": "^0.1.1"
   },
   "devDependencies": {
+    "@parcel/packager-raw-url": "^2.4.1",
+    "@parcel/packager-xml": "^2.4.1",
     "@parcel/transformer-elm": "^2.4.1",
     "express": "^4.17.3",
     "parcel": "^2.4.0",
