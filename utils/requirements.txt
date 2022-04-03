@@ -1,0 +1,5 @@
+uuid
+typer
+awesome-slugify
+ffmpeg
+moviepy
