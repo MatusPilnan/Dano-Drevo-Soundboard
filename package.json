@@ -3,9 +3,21 @@
   "version": "1.0.0",
   "description": "",
   "source": "src/index.html",
+  "pwaManifest": {
+    "name": "Dano Drevo Soundboard",
+    "shortName": "DDSB",
+    "startURL": "./",
+    "theme": "#0d9488",
+    "generateIconOptions": {
+      "baseIcon": "./public/dano.png",
+      "sizes": [192, 384, 512],
+      "genFavicons": true
+    }
+  },
   "dependencies": {
     "@parcel/service-worker": "^2.4.1",
-    "elm": "^0.19.1-5"
+    "elm": "^0.19.1-5",
+    "parcel-config-pwa-manifest": "^0.1.1"
   },
   "devDependencies": {
     "@parcel/transformer-elm": "^2.4.1",
