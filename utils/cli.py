@@ -16,7 +16,8 @@ def create_sound_from_video(
         video_file: str = typer.Option(..., prompt="Enter path to video file"),
         start_sec: float = typer.Option(0, prompt="Enter clip start time", formats=["%d:%d:%f"]),
         duration: float = typer.Option(-1, prompt="Enter duration of the clip, in seconds", show_default=False),
-        image: str = None
+        image: str = None,
+        format: str = '.mp3'
     ):
     video_file = video_file.strip('"')
     with mp.VideoFileClip(video_file) as video:
@@ -26,7 +27,7 @@ def create_sound_from_video(
             video = video.subclip(t_start=start_sec)
 
 
-        audio_file = "content/static/sounds/" + slugify(f'{title}') + '.ogg'
+        audio_file = "content/static/sounds/" + slugify(f'{title}') + format
 
         video.audio.write_audiofile(audio_file)
 

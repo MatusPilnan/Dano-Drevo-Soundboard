@@ -4,6 +4,7 @@
   "description": "",
   "source": "src/index.html",
   "dependencies": {
+    "@parcel/service-worker": "^2.4.1",
     "elm": "^0.19.1-5"
   },
   "devDependencies": {
