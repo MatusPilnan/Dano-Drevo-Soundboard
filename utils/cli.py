@@ -1,6 +1,7 @@
 import json
 import os
 import shutil
+from typing import Tuple
 from uuid import uuid4
 import typer
 import moviepy.editor as mp
@@ -13,15 +14,18 @@ app = typer.Typer(name="Dano Drevo Soundboard CLI")
 def create_sound_from_video(
         title: str = typer.Option(..., prompt="Enter sound title"),
         video_file: str = typer.Option(..., prompt="Enter path to video file"),
-        start_time: str = typer.Option("00:00", prompt="Enter clip start time"),
+        start_sec: float = typer.Option(0, prompt="Enter clip start time", formats=["%d:%d:%f"]),
         duration: float = typer.Option(-1, prompt="Enter duration of the clip, in seconds", show_default=False),
         image: str = None
     ):
+    video_file = video_file.strip('"')
     with mp.VideoFileClip(video_file) as video:
-        video.set_start(start_time)
 
         if duration > 0:
-            video.set_duration(duration)
+            video = video.subclip(t_start=start_sec, t_end=start_sec + duration)
+        else:
+            video = video.subclip(t_start=start_sec)
+
 
         audio_file = "content/static/sounds/" + slugify(f'{title}') + '.ogg'
 
