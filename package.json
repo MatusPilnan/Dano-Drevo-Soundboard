@@ -15,7 +15,8 @@
         384,
         512
       ],
-      "genFavicons": true
+      "genFavicons": true,
+      "purpose": ["any", "maskable"]
     }
   },
   "dependencies": {

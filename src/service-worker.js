@@ -25,3 +25,38 @@ async function activate() {
 }
 
 addEventListener('activate', e => e.waitUntil(activate()));
+
+async function fetchHandler(request) {
+  console.log('Fetch event for ', request.url);
+  const cached = await caches.match(request);
+  if (cached) {
+    console.log('Found ', request.url, ' in cache');
+    return cached;
+  } else {
+    console.log('Network request for ', request.url);
+    return await  fetch(request)
+  }
+}
+
+addEventListener('fetch', event => event.respondWith(fetchHandler(event.request)))
+
+// addEventListener('fetch', event => {
+//   event.respondWith(
+//     caches.match(event.request)
+//     .then(response => {
+//       if (response) {
+//         console.log('Found ', event.request.url, ' in cache');
+//         return response;
+//       }
+//       console.log('Network request for ', event.request.url);
+//       return fetch(event.request)
+
+//       // TODO 4 - Add fetched files to the cache
+
+//     }).catch(error => {
+
+//       // TODO 6 - Respond with custom offline page
+
+//     })
+//   );
+// });
