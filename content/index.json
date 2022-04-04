@@ -3,7 +3,7 @@
     "title": "Fascinuj\u00face",
     "id": "8379d371-c76e-4c66-acc6-e4873fc83753",
     "sound": "/static/sounds/fascinujuce.mp3",
-    "icon": "/static"
+    "icon": "/static/icons/fascinujuce.png"
   },
   {
     "title": "Humus",
@@ -78,7 +78,8 @@
   {
     "title": "Si jedni\u010dka",
     "id": "6bb44d3a-a49f-4503-b4ea-b84718606144",
-    "sound": "/static/sounds/si-jednicka.mp3"
+    "sound": "/static/sounds/si-jednicka.mp3",
+    "icon": "/static/icons/si-jednicka.png"
   },
   {
     "title": "Ja sa p\u00f4jdem vy\u0161\u0165a\u0165",
@@ -118,17 +119,20 @@
   {
     "title": "Ale hovno",
     "id": "e934ba1f-1d4a-4abc-9bfb-a16e8137afaa",
-    "sound": "/static/sounds/ale-hovno.mp3"
+    "sound": "/static/sounds/ale-hovno.mp3",
+    "icon": "/static/icons/ale-hovno.png"
   },
   {
     "title": "Nebu\u010f citlivka",
     "id": "6b0e84f6-b11e-4ef5-ae2d-3dadef55fb7f",
-    "sound": "/static/sounds/nebud-citlivka.mp3"
+    "sound": "/static/sounds/nebud-citlivka.mp3",
+    "icon": "/static/icons/nebud-citlivka.png"
   },
   {
     "title": "Ba \u010do viac",
     "id": "f6c8553f-7f79-446c-9c19-caaf9278a8cf",
-    "sound": "/static/sounds/ba-co-viac.mp3"
+    "sound": "/static/sounds/ba-co-viac.mp3",
+    "icon": "/static/icons/ba-co-viac.png"
   },
   {
     "title": "Bl\u00e1zon",

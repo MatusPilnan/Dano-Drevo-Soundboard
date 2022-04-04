@@ -129,7 +129,7 @@ view audioData model =
   Html.div 
   [ Attr.class "my-16 py-4 container mx-auto px-4" ] 
   [ Html.nav
-    [ Attr.class "fixed top-0 right-0 left-0 bg-teal-600 h-16 shadow-lg flex justify-between items-center text-white" ]
+    [ Attr.class "fixed z-10 top-0 right-0 left-0 bg-teal-600 h-16 shadow-lg flex justify-between items-center text-white" ]
     [ Html.a 
       [ Attr.href "#"
       , Attr.class "w-min ml-4"
@@ -145,14 +145,30 @@ view audioData model =
   ]
 
 
+soundboardButton : Model -> Sound -> Html.Html Msg
 soundboardButton model sound =
   Html.button
-  [ Attr.class "rounded-md bg-teal-100 hover:bg-teal-300 transition-colors w-full h-full p-4 text-sm font-light"
+  [ Attr.class "rounded-md h-full w-full relative z-0 overflow-hidden"
   , Events.onClick <| StartPlaying sound
-  ]
-  [ Html.span 
-    [ Attr.class "text-center" ]
-    [ Html.text sound.title ]
+  ] <|
+  ( case sound.icon of
+    Nothing -> []
+    Just icon ->
+      [ Html.img
+        [ Attr.class "absolute top-0 bottom-0 right-0 left-0 w-full h-full object-cover -z-10"
+        , Attr.src <| model.apiBase ++ icon
+        ]
+        []
+      ]
+  ) ++
+  [ Html.div 
+    [ Attr.class "text-center bg-teal-100 bg-opacity-90 hover:bg-teal-300 hover:bg-opacity-50 transition-colors"
+    , Attr.class "w-full h-full p-4 text-sm font-light flex items-center justify-center" 
+    , Attr.classList
+      [ ("hover:text-white ", m sound.icon)
+      ]
+    ]
+    [ Html.span [] [ Html.text sound.title ] ]
   ]
 
 
@@ -183,3 +199,10 @@ subscriptions audioData model =
       Result.Err _ ->
         LoadedSounds []
   )
+
+
+m : Maybe a -> Bool
+m maybe =
+  case maybe of
+    Nothing -> False
+    Just _ -> True
