@@ -13,6 +13,8 @@ import Http
 import Audio
 import Task
 import Time
+import Process
+import Duration
 
 
 port loadSounds : (Json.Decode.Value -> msg) -> Sub msg
@@ -37,6 +39,7 @@ type Msg
   | LoadingSoundsFailed
   | Play Sound Time.Posix
   | StartPlaying Sound
+  | StopPlaying Sound
   | AudioLoaded Sound Audio.Source
 
 
@@ -77,19 +80,44 @@ update audioData msg model =
     LoadingSoundsFailed ->
       ( model, Cmd.none, Audio.cmdNone )
     Play sound startTime ->
+      let newSound = { sound | state = Data.Playing startTime } in
       ( { model
         | sounds = 
-          Dict.insert sound.id
-          { sound | state = Data.Playing startTime }
-          model.sounds
+          Dict.insert sound.id newSound model.sounds
         }
-      , Cmd.none
+      , sound.audioSource
+        |> Maybe.map (Audio.length audioData)
+        |> Maybe.map Duration.inMilliseconds
+        |> Maybe.map Process.sleep
+        |> Maybe.map (Task.perform <| always <| StopPlaying newSound)
+        |> Maybe.withDefault Cmd.none
       , Audio.cmdNone 
       )
     StartPlaying sound ->
       ( model
       , Task.perform (Play sound) Time.now
       , Audio.cmdNone 
+      )
+    StopPlaying sound ->
+      ( { model
+        | sounds = 
+          Dict.update sound.id
+          ( \current ->
+            case current of
+              Nothing -> Just { sound | state = Data.NotPlaying }
+              Just currentSound ->
+                case (currentSound.state, sound.state) of
+                  (Data.NotPlaying, Data.NotPlaying) -> Just sound
+                  (Data.Playing _, Data.NotPlaying) -> Just sound 
+                  (Data.Playing startTime1, Data.Playing startTime2) -> 
+                    if (Time.posixToMillis startTime1) > (Time.posixToMillis startTime2)
+                    then Just currentSound 
+                    else Just { sound | state = Data.NotPlaying } 
+                  (Data.NotPlaying, Data.Playing startTime) -> Just { sound | state = Data.NotPlaying } 
+          ) model.sounds
+        }
+      , Cmd.none
+      , Audio.cmdNone
       )
     AudioLoaded sound source ->
       ( { model
@@ -149,7 +177,7 @@ soundboardButton : Model -> Sound -> Html.Html Msg
 soundboardButton model sound =
   Html.button
   [ Attr.class "rounded-md h-full w-full relative z-0 overflow-hidden"
-  , Events.onClick <| StartPlaying sound
+  , Events.onClick <| if isPlaying sound then StopPlaying sound else StartPlaying sound
   ] <|
   ( case sound.icon of
     Nothing -> []
@@ -162,17 +190,25 @@ soundboardButton model sound =
       ]
   ) ++
   [ Html.div 
-    [ Attr.class "text-center bg-teal-100 bg-opacity-90 hover:bg-teal-300 hover:bg-opacity-50 transition-colors"
+    [ Attr.class "text-center hover:bg-teal-600 transition-colors"
     , Attr.class "w-full h-full p-4 text-sm font-light flex items-center justify-center" 
     , Attr.classList
       [ ("hover:text-white ", m sound.icon)
+      , ("bg-teal-100 bg-opacity-90 hover:bg-opacity-50", not <| isPlaying sound)
+      , ("bg-teal-300 bg-opacity-50 hover:bg-opacity-75", isPlaying sound)
+      , ("text-white", isPlaying sound && m sound.icon)
       ]
     ]
     [ Html.span [] [ Html.text sound.title ] ]
   ]
 
+isPlaying : Sound -> Bool
+isPlaying sound =
+  case sound.state of
+    Data.Playing _ -> True
+    Data.NotPlaying -> False
 
-
+fetchSounds : String -> Cmd Msg
 fetchSounds basePath =
   Http.get 
   { url = basePath
