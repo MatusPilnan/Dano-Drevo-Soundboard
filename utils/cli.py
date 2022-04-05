@@ -10,6 +10,17 @@ from slugify import slugify
 app = typer.Typer(name="Dano Drevo Soundboard CLI")
 
 
+def save_sounds(sounds_file, sounds):
+    with open(sounds_file, "w", encoding='utf-8') as f: 
+        json.dump(sounds, f, indent=2)
+
+
+def load_sounds(sounds_file):
+    with open(sounds_file, "r", encoding='utf-8') as f: 
+        sounds = json.load(f)
+    return sounds
+
+
 @app.command("create")
 def create_sound_from_video(
         title: str = typer.Option(..., prompt="Enter sound title"),
@@ -43,8 +54,7 @@ def add_sound(
         image: str = None
     ):
     typer.echo(f"Adding sound {title} to the list...")
-    with open(sounds_file, "r", encoding='utf-8') as f: 
-        sounds = json.load(f)
+    sounds = load_sounds(sounds_file)
 
     sound = {
         "title": title,
@@ -74,14 +84,12 @@ def add_sound(
         
     typer.echo(f"Adding sound: {sound}")
 
-    with open(sounds_file, "w", encoding='utf-8') as f: 
-        json.dump(sounds, f, indent=2)
+    save_sounds(sounds_file, sounds)
         
 
 @app.command("convert")
 def convert_audio_files(target: str = '.mp3', sounds_file: str = "content/index.json", delete: bool = True):
-    with open(sounds_file, "r", encoding='utf-8') as f: 
-        sounds = json.load(f)
+    sounds = load_sounds(sounds_file)
 
     for sound in sounds:
         with mp.AudioFileClip('content' + sound["sound"]) as audio:
@@ -91,9 +99,27 @@ def convert_audio_files(target: str = '.mp3', sounds_file: str = "content/index.
             os.unlink('content/' + sound["sound"])
             sound["sound"] = new_filename
 
-    with open(sounds_file, "w", encoding='utf-8') as f: 
-        json.dump(sounds, f, indent=2)
+    save_sounds(sounds_file, sounds)
 
+
+@app.command("add-icons")
+def find_icons_for_existing_sounds(folder: str = "content/static/icons", sounds_file: str = "content/index.json", extension: str = '.png'):
+    sounds = load_sounds(sounds_file)
+
+    for sound in sounds:
+        if "icon" not in sound:
+            filename = slugify(sound['title']) + extension
+            test_path = os.path.join(folder, filename)
+            if os.path.isfile(test_path):
+                typer.echo(f"Adding '{test_path}' as sound image")
+                try:
+                    shutil.copyfile(test_path, f"content/static/icons/{filename}")
+                except shutil.SameFileError:
+                    pass
+
+                sound["icon"] = f"/static/icons/{filename}"
+
+    save_sounds(sounds_file, sounds)
 
 
 

@@ -8,72 +8,86 @@
   {
     "title": "Humus",
     "id": "e0c7ce87-a7bc-4717-be8b-702ebc45f88d",
-    "sound": "/static/sounds/humus.mp3"
+    "sound": "/static/sounds/humus.mp3",
+    "icon": "/static/icons/humus.png"
   },
   {
     "title": "Kapusta",
     "id": "2d369de6-91af-4ca7-8646-75e2355385ce",
-    "sound": "/static/sounds/kapusta.mp3"
+    "sound": "/static/sounds/kapusta.mp3",
+    "icon": "/static/icons/kapusta.png"
   },
   {
     "title": "Ja sa v\u00e1m osprave\u00addl\u0148ujem",
     "id": "af11c852-1ab5-44ea-8a4a-941901970f51",
-    "sound": "/static/sounds/ja-sa-vam-ospravedlnujem.mp3"
+    "sound": "/static/sounds/ja-sa-vam-ospravedlnujem.mp3",
+    "icon": "/static/icons/ja-sa-vam-ospravedlnujem.png"
   },
   {
     "title": "Ja to vy\u010dist\u00edm",
     "id": "62de0136-b6f0-4feb-87f9-801d26bc74f9",
-    "sound": "/static/sounds/ja-to-vycistim.mp3"
+    "sound": "/static/sounds/ja-to-vycistim.mp3",
+    "icon": "/static/icons/ja-to-vycistim.png"
   },
   {
     "title": "Jaaau ty kkt",
     "id": "7eebb628-4cfb-40d4-bc87-e976a7ff562e",
-    "sound": "/static/sounds/jaaau-ty-kkt.mp3"
+    "sound": "/static/sounds/jaaau-ty-kkt.mp3",
+    "icon": "/static/icons/jaaau-ty-kkt.png"
   },
   {
     "title": "Lebo je to prasa",
     "id": "28a78297-d063-4c08-b110-b67b4c698021",
-    "sound": "/static/sounds/lebo-je-to-prasa.mp3"
+    "sound": "/static/sounds/lebo-je-to-prasa.mp3",
+    "icon": "/static/icons/lebo-je-to-prasa.png"
   },
   {
     "title": "Len sa smejte kokoci",
     "id": "2551f5d3-58a8-43b0-aa77-59f2cae91d7f",
-    "sound": "/static/sounds/len-sa-smejte-kokoci.mp3"
+    "sound": "/static/sounds/len-sa-smejte-kokoci.mp3",
+    "icon": "/static/icons/len-sa-smejte-kokoci.png"
   },
   {
     "title": "Nazdar rodinka",
     "id": "35c96458-d348-4f4a-b8d8-9ddf5e3d5a50",
-    "sound": "/static/sounds/nazdar-rodinka.mp3"
+    "sound": "/static/sounds/nazdar-rodinka.mp3",
+    "icon": "/static/icons/nazdar-rodinka.png"
   },
   {
     "title": "Nepoviem",
     "id": "8ef781a6-2745-4bf1-b3ff-851a8f1dbfe5",
-    "sound": "/static/sounds/nepoviem.mp3"
+    "sound": "/static/sounds/nepoviem.mp3",
+    "icon": "/static/icons/nepoviem.png"
   },
   {
     "title": "Nerv\u00f3zny",
     "id": "b04434fd-aff9-4899-b755-e31b1a916cd7",
-    "sound": "/static/sounds/nervozny.mp3"
+    "sound": "/static/sounds/nervozny.mp3",
+    "icon": "/static/icons/nervozny.png"
   },
   {
     "title": "Tvoja chyba",
     "id": "3875532e-5271-43f0-af5d-f4cb6119ba95",
-    "sound": "/static/sounds/tvoja-chyba.mp3"
+    "sound": "/static/sounds/tvoja-chyba.mp3",
+    "icon": "/static/icons/tvoja-chyba.png"
   },
   {
     "title": "Nerozu\u00admiem ot\u00e1zke",
     "id": "2f08d508-d76f-49d6-aab9-291ffd5d8a1b",
-    "sound": "/static/sounds/nerozumiem-otazke.mp3"
+    "sound": "/static/sounds/nerozumiem-otazke.mp3",
+    "icon": "/static/icons/nerozumiem-otazke.png"
   },
   {
     "title": "Povzbudi\u0165",
     "id": "0eb22f71-0158-4ce0-8ea0-098578e8e312",
-    "sound": "/static/sounds/povzbudit.mp3"
+    "sound": "/static/sounds/povzbudit.mp3",
+    "icon": "/static/icons/povzbudit.png"
   },
   {
     "title": "Pozor na hubu",
     "id": "3b81626e-8829-4dfe-bb89-e2550222e724",
-    "sound": "/static/sounds/pozor-na-hubu.mp3"
+    "sound": "/static/sounds/pozor-na-hubu.mp3",
+    "icon": "/static/icons/pozor-na-hubu.png"
   },
   {
     "title": "Si jedni\u010dka",
@@ -84,37 +98,44 @@
   {
     "title": "Ja sa p\u00f4jdem vy\u0161\u0165a\u0165",
     "id": "5054078d-ab18-4df9-9f11-e626e1569575",
-    "sound": "/static/sounds/ja-sa-pojdem-vystat.mp3"
+    "sound": "/static/sounds/ja-sa-pojdem-vystat.mp3",
+    "icon": "/static/icons/ja-sa-pojdem-vystat.png"
   },
   {
     "title": "Si v poriadku?",
     "id": "01c98063-2de1-425f-b6b3-b4a4bc7bfb37",
-    "sound": "/static/sounds/si-v-poriadku.mp3"
+    "sound": "/static/sounds/si-v-poriadku.mp3",
+    "icon": "/static/icons/si-v-poriadku.png"
   },
   {
     "title": "Som nepochopil",
     "id": "a63542d8-22e5-4c8f-b7de-622e8cc075c1",
-    "sound": "/static/sounds/som-nepochopil.mp3"
+    "sound": "/static/sounds/som-nepochopil.mp3",
+    "icon": "/static/icons/som-nepochopil.png"
   },
   {
     "title": "Synek m\u00e1 61 chromo\u00adz\u00f3mov",
     "id": "9c1cdb6c-05da-4a14-a0d9-c3bd3a0f0446",
-    "sound": "/static/sounds/synek-ma-61-chromozomov.mp3"
+    "sound": "/static/sounds/synek-ma-61-chromozomov.mp3",
+    "icon": "/static/icons/synek-ma-61-chromozomov.png"
   },
   {
     "title": "GL",
     "id": "4a603a7a-3720-414e-8ca3-22b2dfc5d6bf",
-    "sound": "/static/sounds/gl.mp3"
+    "sound": "/static/sounds/gl.mp3",
+    "icon": "/static/icons/gl.png"
   },
   {
     "title": "TY",
     "id": "c9a158a1-8230-4485-a7ec-2f787444728a",
-    "sound": "/static/sounds/ty.mp3"
+    "sound": "/static/sounds/ty.mp3",
+    "icon": "/static/icons/ty.png"
   },
   {
     "title": "Zas sa tu pre\u017eierate",
     "id": "9fd24211-1278-4987-b79c-6ae0a31a5648",
-    "sound": "/static/sounds/zas-sa-tu-prezierate.mp3"
+    "sound": "/static/sounds/zas-sa-tu-prezierate.mp3",
+    "icon": "/static/icons/zas-sa-tu-prezierate.png"
   },
   {
     "title": "Ale hovno",
@@ -137,37 +158,44 @@
   {
     "title": "Bl\u00e1zon",
     "id": "38d134d7-853c-493e-b45d-092aa05dc19a",
-    "sound": "/static/sounds/blazon.mp3"
+    "sound": "/static/sounds/blazon.mp3",
+    "icon": "/static/icons/blazon.png"
   },
   {
     "title": "WUEEEE",
     "id": "b5a56a10-733e-409a-b573-e715b91ed460",
-    "sound": "/static/sounds/wueeee.mp3"
+    "sound": "/static/sounds/wueeee.mp3",
+    "icon": "/static/icons/wueeee.png"
   },
   {
-    "title": "Presne ako Starý Jano",
+    "title": "Presne ako Star\u00fd Jano",
     "id": "2b3cbf9a-ed3a-44db-adf4-beb9f449953f",
-    "sound": "/static/sounds/presne-ako-stary-jano.mp3"
+    "sound": "/static/sounds/presne-ako-stary-jano.mp3",
+    "icon": "/static/icons/presne-ako-stary-jano.png"
   },
   {
     "title": "Ale ja som...",
     "id": "82fd9cf6-d6e0-4d25-992a-5279efb54b15",
-    "sound": "/static/sounds/ale-ja-som.mp3"
+    "sound": "/static/sounds/ale-ja-som.mp3",
+    "icon": "/static/icons/ale-ja-som.png"
   },
   {
     "title": "\u010eakujem",
     "id": "7981ec84-1360-4d8a-8434-27e9c31682c5",
-    "sound": "/static/sounds/dakujem.mp3"
+    "sound": "/static/sounds/dakujem.mp3",
+    "icon": "/static/icons/dakujem.png"
   },
   {
     "title": "Dobr\u00fa chu\u0165",
     "id": "6bd7123f-18b9-40c2-b723-a9c16ea8c222",
-    "sound": "/static/sounds/dobru-chut.mp3"
+    "sound": "/static/sounds/dobru-chut.mp3",
+    "icon": "/static/icons/dobru-chut.png"
   },
   {
     "title": "V\u017edy sa potom posere\u0161",
     "id": "b0a9a4e1-d585-4e0c-a472-ffb4db3afacf",
-    "sound": "/static/sounds/vzdy-sa-potom-poseres.mp3"
+    "sound": "/static/sounds/vzdy-sa-potom-poseres.mp3",
+    "icon": "/static/icons/vzdy-sa-potom-poseres.png"
   },
   {
     "title": "Dole gace",
