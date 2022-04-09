@@ -5,7 +5,7 @@
   "source": "src/index.html",
   "pwaManifest": {
     "name": "Dano Drevo Soundboard",
-    "shortName": "DDSB",
+    "shortName": "Dano Drevo Soundboard",
     "startURL": "./",
     "theme": "#0d9488",
     "generateIconOptions": {
