@@ -20,7 +20,7 @@ import Set exposing (Set)
 port loadSounds : (Json.Decode.Value -> msg) -> Sub msg
 port audioPortToJS : Json.Encode.Value -> Cmd msg
 port audioPortFromJS : (Json.Decode.Value -> msg) -> Sub msg
-port newSoundPlayed : SoundID -> Cmd msg
+port newSoundPlayed : List SoundID -> Cmd msg
 
 
 
@@ -28,6 +28,8 @@ type alias Model =
   { sounds : Dict SoundID Sound
   , apiBase : String
   , knownSounds : Set SoundID
+  , menuOpen : Bool
+  , version : String
   }
 
 type alias Flags =
@@ -44,6 +46,8 @@ type Msg
   | StartPlaying Sound
   | StopPlaying Sound
   | AudioLoaded Sound Audio.Source
+  | SetMenuOpen Bool
+  | MarkAllSoundsAsSeen
 
 
 main : Platform.Program Flags (Audio.Model Msg Model) (Audio.Msg Msg)
@@ -63,6 +67,8 @@ init flags =
   ( { sounds = Dict.empty
     , apiBase = flags.apiBase
     , knownSounds = Set.fromList flags.knownSounds
+    , menuOpen = False
+    , version = "Version 1.1.1"
     }
   , fetchSounds flags.apiBase
   , Audio.cmdNone
@@ -109,7 +115,7 @@ update audioData msg model =
           |> Maybe.map Process.sleep
           |> Maybe.map (Task.perform <| always <| StopPlaying newSound)
           |> Maybe.withDefault Cmd.none
-        , if isSoundNew model.knownSounds sound then newSoundPlayed sound.id else Cmd.none
+        , if isSoundNew model.knownSounds sound then newSoundPlayed [ sound.id ] else Cmd.none
         ]
       , Audio.cmdNone 
       )
@@ -142,12 +148,29 @@ update audioData msg model =
     AudioLoaded sound source ->
       ( { model
         | sounds = 
-          Dict.insert sound.id
-          { sound | audioSource = Just source }
+          Dict.update sound.id
+          (\existing ->
+            case existing of
+              Nothing -> Just { sound | audioSource = Just source }
+              Just s -> Just { s | audioSource = Just source }
+          )
           model.sounds
         }
       , Cmd.none
       , Audio.cmdNone 
+      )
+    SetMenuOpen open ->
+      ( { model | menuOpen = open }
+      , Cmd.none
+      , Audio.cmdNone
+      )
+    MarkAllSoundsAsSeen ->
+      ( { model
+        | sounds = Dict.map (\_ sound -> { sound | isNew = False }) model.sounds
+        , knownSounds = Set.union model.knownSounds (Set.fromList <| List.map .id <| Dict.values model.sounds)
+        }
+      , newSoundPlayed <| List.filterMap (\sound -> if Set.member sound.id model.knownSounds then Nothing else Just sound.id) <| Dict.values model.sounds
+      , Audio.cmdNone
       )
 
 
@@ -188,7 +211,8 @@ view _ model =
       , Attr.class "w-min ml-4"
       ]
       [ Html.text "DanoDrevo Soundboard" ]
-    , Html.button [ Attr.class "m-4" ] [ Icons.menu ]
+    , Html.button [ Attr.class "m-4", Events.onClick <| SetMenuOpen True ] [ Icons.menu ]
+    , menuDrawer model
     ]
   , Html.ol
     [ Attr.class "grid gap-4 grid-cols-[repeat(auto-fit,minmax(100px,1fr))]" ]
@@ -227,6 +251,54 @@ soundboardButton model sound =
       ]
     ]
     [ Html.span [] [ Html.text sound.title ] ]
+  ]
+
+
+menuDrawer : Model -> Html.Html Msg
+menuDrawer model =
+  Html.div
+  [ Attr.class "fixed" ]
+  [ Html.div
+    [ Attr.class "fixed transition-all bg-black opacity-0"
+    , Attr.classList
+      [("top-0 bottom-0 left-0 right-0 h-full opacity-50", model.menuOpen)]
+    , Events.onClick <| SetMenuOpen False
+    ]
+    []
+  , Html.div
+    [ Attr.class "fixed w-64 max-w-screen top-0 bottom-0 bg-white shadow-lg transition-all text-black"
+    , Attr.classList
+      [ ("right-0", model.menuOpen)
+      , ("-right-64 ", not model.menuOpen)
+      ]
+    ]
+    [ Html.div
+      [ Attr.class "h-16 w-full flex justify-between items-center border-b border-gray-200 px-4" ]
+      [ Html.div
+        []
+        [ Html.h1
+          [ Attr.class "font-bold" ]
+          [ Html.text "Dano Drevo SB" ]
+        , Html.p
+          [ Attr.class "font-light text-xs text-gray-500" ]
+          [ Html.text model.version ]
+        ]
+      , Html.button
+        [ Events.onClick <| SetMenuOpen False ]
+        [ Icons.close ]
+      ]
+    , if List.any .isNew <| Dict.values model.sounds then menuButton "Mark all as seen" MarkAllSoundsAsSeen Icons.check else Html.text ""
+    ]
+  ]
+
+menuButton : String -> Msg -> Html.Html Msg -> Html.Html Msg
+menuButton text onClick icon =
+  Html.button
+  [ Attr.class "hover:bg-teal-100 hover:text-teal-600 border-b border-gray-200 w-full transition-colors h-14 text-left px-4 flex justify-between items-center" 
+  , Events.onClick onClick
+  ]
+  [ Html.span [] [ Html.text text ] 
+  , icon
   ]
 
 isPlaying : Sound -> Bool

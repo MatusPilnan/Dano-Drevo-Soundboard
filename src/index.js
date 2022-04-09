@@ -13,10 +13,11 @@ if (knownSounds) {
 
 const app = Elm.Main.init({ node: document.getElementById("app"), flags });
 
-app.ports.newSoundPlayed.subscribe((soundId) => {
+app.ports.newSoundPlayed.subscribe((soundIds) => {
   const knownSounds = JSON.parse(localStorage.getItem('knownSounds') || "[]");
+  console.log(soundIds);
+  knownSounds.push(...soundIds);
   console.log(knownSounds);
-  knownSounds.push(soundId);
   localStorage.setItem("knownSounds", JSON.stringify(knownSounds))
 })
 
