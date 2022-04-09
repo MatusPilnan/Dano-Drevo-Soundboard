@@ -1,6 +1,5 @@
 port module Main exposing (..)
 
-import Browser
 import Html
 import Html.Attributes as Attr
 import Html.Events as Events
@@ -15,21 +14,25 @@ import Task
 import Time
 import Process
 import Duration
+import Set exposing (Set)
 
 
 port loadSounds : (Json.Decode.Value -> msg) -> Sub msg
 port audioPortToJS : Json.Encode.Value -> Cmd msg
 port audioPortFromJS : (Json.Decode.Value -> msg) -> Sub msg
+port newSoundPlayed : SoundID -> Cmd msg
 
 
 
 type alias Model =
   { sounds : Dict SoundID Sound
   , apiBase : String
+  , knownSounds : Set SoundID
   }
 
 type alias Flags =
   { apiBase : String
+  , knownSounds : List SoundID
   }
 
 
@@ -59,6 +62,7 @@ init : Flags -> (Model, Cmd Msg, Audio.AudioCmd Msg)
 init flags =
   ( { sounds = Dict.empty
     , apiBase = flags.apiBase
+    , knownSounds = Set.fromList flags.knownSounds
     }
   , fetchSounds flags.apiBase
   , Audio.cmdNone
@@ -71,26 +75,42 @@ update audioData msg model =
     Noop ->
       ( model, Cmd.none, Audio.cmdNone )
     LoadedSounds sounds ->
+      let 
+        newSounds =
+          List.foldl 
+          (\newSound currentSounds ->
+            Dict.insert newSound.id { newSound | isNew = isSoundNew model.knownSounds newSound } currentSounds
+          ) 
+          model.sounds 
+          sounds
+      in
       ( { model
-        | sounds = List.foldl (\newSound currentSounds -> Dict.insert newSound.id newSound currentSounds) model.sounds sounds
+        | sounds = newSounds
         }
       , Cmd.none
-      , Audio.cmdBatch <| List.map (\s -> Audio.loadAudio (processAudioLoadingResult s) <| model.apiBase ++ s.sound) sounds
+      , Audio.cmdBatch 
+        <| List.map 
+          (\s -> Audio.loadAudio (processAudioLoadingResult { s | isNew = isSoundNew model.knownSounds s }) <| model.apiBase ++ s.sound) 
+          sounds
       )
     LoadingSoundsFailed ->
       ( model, Cmd.none, Audio.cmdNone )
     Play sound startTime ->
-      let newSound = { sound | state = Data.Playing startTime } in
+      let newSound = { sound | state = Data.Playing startTime, isNew = False } in
       ( { model
         | sounds = 
           Dict.insert sound.id newSound model.sounds
+        , knownSounds = Set.insert sound.id model.knownSounds
         }
-      , sound.audioSource
-        |> Maybe.map (Audio.length audioData)
-        |> Maybe.map Duration.inMilliseconds
-        |> Maybe.map Process.sleep
-        |> Maybe.map (Task.perform <| always <| StopPlaying newSound)
-        |> Maybe.withDefault Cmd.none
+      , Cmd.batch
+        [ sound.audioSource
+          |> Maybe.map (Audio.length audioData)
+          |> Maybe.map Duration.inMilliseconds
+          |> Maybe.map Process.sleep
+          |> Maybe.map (Task.perform <| always <| StopPlaying newSound)
+          |> Maybe.withDefault Cmd.none
+        , if isSoundNew model.knownSounds sound then newSoundPlayed sound.id else Cmd.none
+        ]
       , Audio.cmdNone 
       )
     StartPlaying sound ->
@@ -113,7 +133,7 @@ update audioData msg model =
                     if (Time.posixToMillis startTime1) > (Time.posixToMillis startTime2)
                     then Just currentSound 
                     else Just { sound | state = Data.NotPlaying } 
-                  (Data.NotPlaying, Data.Playing startTime) -> Just { sound | state = Data.NotPlaying } 
+                  (Data.NotPlaying, Data.Playing _) -> Just { sound | state = Data.NotPlaying } 
           ) model.sounds
         }
       , Cmd.none
@@ -131,17 +151,22 @@ update audioData msg model =
       )
 
 
+isSoundNew : Set SoundID -> Sound-> Bool
+isSoundNew knownSounds sound =
+  not <| Set.member sound.id knownSounds
+
+
 processAudioLoadingResult : Sound -> Result Audio.LoadError Audio.Source -> Msg
 processAudioLoadingResult sound result =
   case result of
     Result.Ok source ->
       AudioLoaded sound source
-    Result.Err e ->
+    Result.Err _ ->
       Noop
 
 
 audio: Audio.AudioData -> Model -> Audio.Audio
-audio audioData model =
+audio _ model =
   Dict.values model.sounds
   |> List.filterMap
     (\sound ->
@@ -153,7 +178,7 @@ audio audioData model =
   |> Audio.group
 
 view : Audio.AudioData -> Model -> Html.Html Msg
-view audioData model =
+view _ model =
   Html.div 
   [ Attr.class "my-16 py-4 container mx-auto px-4" ] 
   [ Html.nav
@@ -176,26 +201,28 @@ view audioData model =
 soundboardButton : Model -> Sound -> Html.Html Msg
 soundboardButton model sound =
   Html.button
-  [ Attr.class "rounded-md h-full w-full relative z-0 overflow-hidden"
+  [ Attr.class "rounded-md h-full w-full relative z-0"
   , Events.onClick <| if isPlaying sound then StopPlaying sound else StartPlaying sound
   ] <|
   ( case sound.icon of
     Nothing -> []
     Just icon ->
       [ Html.img
-        [ Attr.class "absolute top-0 bottom-0 right-0 left-0 w-full h-full object-cover -z-10"
+        [ Attr.class "absolute top-0 bottom-0 right-0 left-0 w-full h-full object-cover -z-10 rounded-md"
         , Attr.src <| model.apiBase ++ icon
         ]
         []
       ]
   ) ++
   [ Html.div 
-    [ Attr.class "text-center hover:bg-teal-600 transition-colors"
-    , Attr.class "w-full h-full p-4 text-sm font-light flex items-center justify-center" 
+    [ Attr.class "text-center md:hover:bg-teal-600 transition-colors rounded-md"
+    , Attr.class "w-full h-full p-4 text-sm font-light flex items-center justify-center"
+    , Attr.classList 
+      [("before:rounded-full before:h-2 before:w-2 before:-top-0.5 before:-right-0.5 before:absolute before:bg-teal-600 before:animate-ping", sound.isNew)]
     , Attr.classList
-      [ ("hover:text-white ", m sound.icon)
-      , ("bg-teal-100 bg-opacity-90 hover:bg-opacity-50", not <| isPlaying sound)
-      , ("bg-teal-300 bg-opacity-50 hover:bg-opacity-75", isPlaying sound)
+      [ ("md:hover:text-white ", m sound.icon)
+      , ("bg-teal-100 bg-opacity-90 md:hover:bg-opacity-50", not <| isPlaying sound)
+      , ("bg-teal-300 bg-opacity-50 md:hover:bg-opacity-75", isPlaying sound)
       , ("text-white", isPlaying sound && m sound.icon)
       ]
     ]
@@ -226,7 +253,7 @@ fetchSounds basePath =
 
 
 subscriptions : Audio.AudioData -> Model -> Sub Msg
-subscriptions audioData model =
+subscriptions _ _ =
   loadSounds 
   ( \jsonString ->
     case Data.decodeSounds jsonString of
