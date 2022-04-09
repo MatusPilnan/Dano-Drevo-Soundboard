@@ -35,6 +35,7 @@ type alias Model =
 type alias Flags =
   { apiBase : String
   , knownSounds : List SoundID
+  , version : String
   }
 
 
@@ -68,7 +69,7 @@ init flags =
     , apiBase = flags.apiBase
     , knownSounds = Set.fromList flags.knownSounds
     , menuOpen = False
-    , version = "Version 1.1.1"
+    , version = flags.version
     }
   , fetchSounds flags.apiBase
   , Audio.cmdNone

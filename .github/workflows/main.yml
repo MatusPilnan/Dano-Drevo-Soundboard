@@ -28,9 +28,6 @@ jobs:
       - uses: bahmutov/npm-install@v1.6.0
         name: Install dependencies
 
-      - name: Replace base path in flags
-        run: sed -i 's/http:\/\/localhost:1234\/content/https:\/\/matuspilnan.github.io\/Dano-Drevo-Soundboard\/content/' src/flags.json
-
       - name: Build Elm app and Styles
         run: |
           npm run build -- --public-url ./

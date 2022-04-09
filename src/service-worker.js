@@ -1,15 +1,14 @@
 import {manifest, version} from '@parcel/service-worker';
 
 import sounds from '../content/index.json'
-import flags from './flags.json'
 
 async function install() {
   const cache = await caches.open(version);
   for (const sound of sounds) {
-    const url = new URL(flags.apiBase + sound.sound);
+    const url = new URL(process.env.API_BASE + sound.sound);
     await cache.add(url.pathname)
     if (sound.icon) {
-      const iconUrl = new URL(flags.apiBase + sound.icon);
+      const iconUrl = new URL(process.env.API_BASE + sound.icon);
       await cache.add(iconUrl.pathname)
     }
   }
