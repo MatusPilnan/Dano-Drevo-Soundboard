@@ -12,7 +12,10 @@ async function install() {
       await cache.add(iconUrl.pathname)
     }
   }
-  await cache.addAll(manifest);
+  await cache.addAll(manifest.map((path) => {
+    const url = new URL(process.env.API_BASE + path);
+    return url.pathname;
+  }));
 }
 addEventListener('install', e => e.waitUntil(install()));
 
