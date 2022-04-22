@@ -13,8 +13,8 @@ async function install() {
     }
   }
   await cache.addAll(manifest.map((path) => {
-    const url = new URL(process.env.API_BASE + path);
-    return url.pathname;
+    const manifestUrl = new URL(process.env.API_BASE + path);
+    return manifestUrl.pathname;
   }));
 }
 addEventListener('install', e => e.waitUntil(install()));
