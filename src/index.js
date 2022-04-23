@@ -1,6 +1,6 @@
 import "./index.css";
 
-import { version } from '../package.json';
+import { version, homepage, bugs } from '../package.json';
 
 import { Elm } from "./elm/Main.elm";
 
@@ -9,7 +9,9 @@ function startAudio(e){if(window.AudioContext=window.AudioContext||window.webkit
 const flags = {
   "apiBase": process.env.API_BASE,
   "version": `Version ${version}`,
-  "knownSounds": JSON.parse(localStorage.getItem('knownSounds') || "[]")
+  "knownSounds": JSON.parse(localStorage.getItem('knownSounds') || "[]"),
+  "repository": homepage,
+  "newSound": bugs.url + "/new?assignees=mpilnan&labels=content&template=new-sound.yaml&title=%5BSOUND%5D%3A+"
 }
 
 

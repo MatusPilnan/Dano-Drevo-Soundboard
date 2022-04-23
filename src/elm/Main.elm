@@ -30,12 +30,16 @@ type alias Model =
   , knownSounds : Set SoundID
   , menuOpen : Bool
   , version : String
+  , repository : String
+  , newSound : String
   }
 
 type alias Flags =
   { apiBase : String
   , knownSounds : List SoundID
   , version : String
+  , repository : String
+  , newSound : String
   }
 
 
@@ -70,6 +74,8 @@ init flags =
     , knownSounds = Set.fromList flags.knownSounds
     , menuOpen = False
     , version = flags.version
+    , repository = flags.repository
+    , newSound = flags.newSound
     }
   , fetchSounds flags.apiBase
   , Audio.cmdNone
@@ -267,7 +273,7 @@ menuDrawer model =
     ]
     []
   , Html.div
-    [ Attr.class "fixed w-64 max-w-screen top-0 bottom-0 bg-white shadow-lg transition-all text-black"
+    [ Attr.class "fixed w-64 max-w-screen top-0 bottom-0 bg-white shadow-lg transition-all text-black flex flex-col"
     , Attr.classList
       [ ("right-0", model.menuOpen)
       , ("-right-64 ", not model.menuOpen)
@@ -289,7 +295,21 @@ menuDrawer model =
         [ Icons.close ]
       ]
     , if List.any .isNew <| Dict.values model.sounds then menuButton "Mark all as seen" MarkAllSoundsAsSeen Icons.check else Html.text ""
+    , Html.div [ Attr.class "flex-grow" ] []
+    , menuLink "Request a new sound" model.newSound Icons.new
+    , menuLink "Source code" model.repository Icons.github
     ]
+  ]
+
+menuLink : String -> String -> Html.Html Msg -> Html.Html Msg
+menuLink text link icon =
+  Html.a
+  [ Attr.class "hover:bg-teal-100 hover:text-teal-600 border-b border-gray-200 w-full transition-colors h-14 text-left px-4 flex justify-between items-center" 
+  , Attr.href link
+  , Attr.target "_blank"
+  ]
+  [ Html.span [] [ Html.text text ] 
+  , icon
   ]
 
 menuButton : String -> Msg -> Html.Html Msg -> Html.Html Msg

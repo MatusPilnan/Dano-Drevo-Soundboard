@@ -1,6 +1,6 @@
 {
   "name": "dano-drevo-soundboard",
-  "version": "1.1.3",
+  "version": "1.1.4",
   "description": "",
   "source": "src/index.html",
   "pwaManifest": {
