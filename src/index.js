@@ -8,10 +8,11 @@ function startAudio(e){if(window.AudioContext=window.AudioContext||window.webkit
 
 const flags = {
   "apiBase": process.env.API_BASE,
-  "version": `Version ${version}`,
+  "version": version,
   "knownSounds": JSON.parse(localStorage.getItem('knownSounds') || "[]"),
   "repository": homepage,
-  "newSound": bugs.url + "/new?assignees=mpilnan&labels=content&template=new-sound.yaml&title=%5BSOUND%5D%3A+"
+  "newSound": bugs.url + "/new?assignees=mpilnan&labels=content&template=new-sound.yaml&title=%5BSOUND%5D%3A+",
+  "locale": localStorage.getItem("soundboardLocale") || ""
 }
 
 
@@ -22,6 +23,10 @@ app.ports.newSoundPlayed.subscribe((soundIds) => {
   const knownSounds = JSON.parse(localStorage.getItem('knownSounds') || "[]");
   knownSounds.push(...soundIds);
   localStorage.setItem("knownSounds", JSON.stringify(knownSounds))
+})
+
+app.ports.localeChanged.subscribe((locale) => {
+  localStorage.setItem("soundboardLocale", locale)
 })
 
 startAudio(app);

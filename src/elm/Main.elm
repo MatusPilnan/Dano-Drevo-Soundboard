@@ -15,13 +15,14 @@ import Time
 import Process
 import Duration
 import Set exposing (Set)
+import I18n
 
 
 port loadSounds : (Json.Decode.Value -> msg) -> Sub msg
 port audioPortToJS : Json.Encode.Value -> Cmd msg
 port audioPortFromJS : (Json.Decode.Value -> msg) -> Sub msg
 port newSoundPlayed : List SoundID -> Cmd msg
-
+port localeChanged : String -> Cmd msg
 
 
 type alias Model =
@@ -32,6 +33,7 @@ type alias Model =
   , version : String
   , repository : String
   , newSound : String
+  , locale : I18n.Locale
   }
 
 type alias Flags =
@@ -40,6 +42,7 @@ type alias Flags =
   , version : String
   , repository : String
   , newSound : String
+  , locale : String
   }
 
 
@@ -53,6 +56,7 @@ type Msg
   | AudioLoaded Sound Audio.Source
   | SetMenuOpen Bool
   | MarkAllSoundsAsSeen
+  | SetLocale I18n.Locale
 
 
 main : Platform.Program Flags (Audio.Model Msg Model) (Audio.Msg Msg)
@@ -76,6 +80,7 @@ init flags =
     , version = flags.version
     , repository = flags.repository
     , newSound = flags.newSound
+    , locale = I18n.decodeLocale flags.locale
     }
   , fetchSounds flags.apiBase
   , Audio.cmdNone
@@ -180,6 +185,12 @@ update audioData msg model =
       , Audio.cmdNone
       )
 
+    SetLocale locale ->
+      ( { model | locale = locale }
+      , localeChanged <| I18n.encodeLocale locale
+      , Audio.cmdNone
+      )
+
 
 isSoundNew : Set SoundID -> Sound-> Bool
 isSoundNew knownSounds sound =
@@ -263,6 +274,7 @@ soundboardButton model sound =
 
 menuDrawer : Model -> Html.Html Msg
 menuDrawer model =
+  let i18n = I18n.i18n model.locale in
   Html.div
   [ Attr.class "fixed" ]
   [ Html.div
@@ -288,16 +300,17 @@ menuDrawer model =
           [ Html.text "Dano Drevo SB" ]
         , Html.p
           [ Attr.class "font-light text-xs text-gray-500" ]
-          [ Html.text model.version ]
+          [ Html.text <| i18n <| I18n.Version model.version ]
         ]
       , Html.button
         [ Events.onClick <| SetMenuOpen False ]
         [ Icons.close ]
       ]
-    , if List.any .isNew <| Dict.values model.sounds then menuButton "Mark all as seen" MarkAllSoundsAsSeen Icons.check else Html.text ""
+    , localeSelector model
+    , if List.any .isNew <| Dict.values model.sounds then menuButton (i18n I18n.MarkAllSeen) MarkAllSoundsAsSeen Icons.check else Html.text ""
     , Html.div [ Attr.class "flex-grow" ] []
-    , menuLink "Request a new sound" model.newSound Icons.new
-    , menuLink "Source code" model.repository Icons.github
+    , menuLink (i18n I18n.RequestSound) model.newSound Icons.new
+    , menuLink (i18n I18n.SourceCode) model.repository Icons.github
     ]
   ]
 
@@ -321,6 +334,23 @@ menuButton text onClick icon =
   [ Html.span [] [ Html.text text ] 
   , icon
   ]
+
+localeSelector : Model -> Html.Html Msg
+localeSelector model =
+  Html.div
+  [ Attr.class "flex flex-wrap border-b border-gray-200 w-full p-4 text-sm gap-2" ]
+  <| List.map
+  ( \(label, locale) ->
+    Html.button
+    [ Attr.class "transition-colors rounded-full px-2"
+    , Attr.classList
+      [ ("bg-teal-100 text-teal-600 hover:text-black", model.locale == locale)
+      , ("hover:bg-teal-100", model.locale /= locale)
+      ]
+    , Events.onClick <| SetLocale locale
+    ]
+    [ Html.text label ]
+  ) I18n.locales
 
 isPlaying : Sound -> Bool
 isPlaying sound =
