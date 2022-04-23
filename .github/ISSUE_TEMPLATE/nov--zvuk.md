@@ -1,14 +1,14 @@
 ---
 name: Nový zvuk
 about: Navrhni zvuk, ktorý v appke chýba a pridáme ho
-title: "[NEW SOUND] "
+title: "[SOUND] "
 labels: content
 assignees: ''
 
 ---
 
 **Ktorý zvuk?**
-Popíš hlášku ktorú by sme mali pridať
+Popíš hlášku ktorú by sme mali pridať. Pre viacero hlášok vytvor prosím viacero žiadostí.
 
 **Z ktorého filmu je?**
 - [ ] Dano Drevo a Tajomná komnata
