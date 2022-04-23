@@ -1,0 +1,33 @@
+name: Nová hláška
+description: Navrhni hlášku ktorá v appke chýba a pridáme ju
+title: "[SOUND]: "
+labels: ["content"]
+assignees:
+  - mpilnan
+body:
+  - type: textarea
+    id: which-sound
+    attributes:
+      label: Ktorá hláška?
+      description: Popíš hlášku ktorú by sme mali pridať. Pre viacero hlášok vytvor prosím viacero žiadostí.
+      placeholder: Prepáčte že meškám, meral som si...
+    validations:
+      required: true
+  - type: dropdown
+    id: movie
+    attributes:
+      label: Z ktorého filmu je?
+      description: Pravdepodobne budeme vedieť, ale radšej vyber 😅
+      options:
+        - Dano Drevo a Tajomná komnata
+        - Dano Drevo a Turnaj Mekyho Žbirku
+        - 'Iné video (napíš do políčka vyššie, aj s odkazom na video)'
+    validations:
+      required: true
+  - type: input
+    id: time-code
+    attributes:
+      label: Čas, v ktorom hláška zaznie
+      description: Čím presnejšie, tým lepšie. Ideálne časový kód z videa, prípadne aspoň v ktorej časti filmu.
+    validations:
+      required: true
