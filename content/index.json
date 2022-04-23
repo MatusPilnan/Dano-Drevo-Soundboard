@@ -214,5 +214,107 @@
     "id": "e67e099f-cbb8-44ca-9c61-21696d3095fd",
     "sound": "/static/sounds/virusove-choroby.mp3",
     "icon": "/static/icons/virusove-choroby.png"
+  },
+  {
+    "title": "Debil jeden",
+    "id": "b6153cfd-9c75-4f15-9a14-75eec191c2b5",
+    "sound": "/static/sounds/debil-jeden.mp3",
+    "icon": "/static/icons/debil-jeden.png"
+  },
+  {
+    "title": "No dobre",
+    "id": "32066d79-3f1d-492c-a464-609dc908b51b",
+    "sound": "/static/sounds/no-dobre.mp3",
+    "icon": "/static/icons/no-dobre.png"
+  },
+  {
+    "title": "Konkurent",
+    "id": "972e2798-03a4-4ab5-8de0-caa00148fba2",
+    "sound": "/static/sounds/konkurent.mp3",
+    "icon": "/static/icons/konkurent.png"
+  },
+  {
+    "title": "J\u00f3j, ta moj pap\u00e9k",
+    "id": "f307ac20-1bfe-43e6-a0bb-9d6914ec7a8c",
+    "sound": "/static/sounds/joj-ta-moj-papek.mp3",
+    "icon": "/static/icons/joj-ta-moj-papek.png"
+  },
+  {
+    "title": "Tak v tom pr\u00edpade dovidenia",
+    "id": "0ba76ebe-4cf4-40c9-bca5-db76188ef0f2",
+    "sound": "/static/sounds/tak-v-tom-pripade-dovidenia.mp3",
+    "icon": "/static/icons/tak-v-tom-pripade-dovidenia.png"
+  },
+  {
+    "title": "M\u00e1m moc ve\u013ek\u00e9 nohy",
+    "id": "b4c42203-3628-41c0-bcf0-33b7a068717f",
+    "sound": "/static/sounds/mam-moc-velke-nohy.mp3",
+    "icon": "/static/icons/mam-moc-velke-nohy.png"
+  },
+  {
+    "title": "Pivo za polovicu",
+    "id": "0420106a-fa85-4427-9cba-b47b751f9b59",
+    "sound": "/static/sounds/pivo-za-polovicu.mp3",
+    "icon": "/static/icons/pivo-za-polovicu.png"
+  },
+  {
+    "title": "\u017deby to nebol vlak?",
+    "id": "7dc2f88e-a307-4a75-9bc0-8b69ee2dd55e",
+    "sound": "/static/sounds/zeby-to-nebol-vlak.mp3",
+    "icon": "/static/icons/zeby-to-nebol-vlak.png"
+  },
+  {
+    "title": "Prep\u00e1\u010dte \u017ee me\u0161k\u00e1m",
+    "id": "580d2e97-e6f1-4a3e-a842-2918464221d6",
+    "sound": "/static/sounds/prepacte-ze-meskam.mp3",
+    "icon": "/static/icons/prepacte-ze-meskam.png"
+  },
+  {
+    "title": "O jedn\u00e9ho debila menej",
+    "id": "637bcd13-1632-4516-ba7f-6ec4d8d32c56",
+    "sound": "/static/sounds/o-jedneho-debila-menej.mp3",
+    "icon": "/static/icons/o-jedneho-debila-menej.png"
+  },
+  {
+    "title": "Hij\u00f3 Kim!",
+    "id": "379ef0f4-353a-4f4b-9dd0-01543decda9f",
+    "sound": "/static/sounds/hijo-kim.mp3",
+    "icon": "/static/icons/hijo-kim.png"
+  },
+  {
+    "title": "Ma\u0161tal\u00edr",
+    "id": "1466721f-b72d-4bb0-8946-bcab88032ee8",
+    "sound": "/static/sounds/mastalir.mp3",
+    "icon": "/static/icons/mastalir.png"
+  },
+  {
+    "title": "Humus 2",
+    "id": "d53a10f3-6dcd-47a4-be76-863751619d79",
+    "sound": "/static/sounds/humus-2.mp3",
+    "icon": "/static/icons/humus-2.png"
+  },
+  {
+    "title": "Na zdravie!",
+    "id": "99562efc-3b8a-450d-95dc-8e3c57c88aec",
+    "sound": "/static/sounds/na-zdravie.mp3",
+    "icon": "/static/icons/na-zdravie.png"
+  },
+  {
+    "title": "Sim charaba Chatam Sofer",
+    "id": "c4ca196c-fef3-4a85-897a-11221db7bd3e",
+    "sound": "/static/sounds/sim-charaba-chatam-sofer.mp3",
+    "icon": "/static/icons/sim-charaba-chatam-sofer.png"
+  },
+  {
+    "title": "Sim charaba \u013dudo Kolman",
+    "id": "c7762588-44d8-4939-9200-02a60a073504",
+    "sound": "/static/sounds/sim-charaba-ludo-kolman.mp3",
+    "icon": "/static/icons/sim-charaba-ludo-kolman.png"
+  },
+  {
+    "title": "E\u0161te k t\u00fdm strukovin\u00e1m",
+    "id": "2186c224-19b0-414c-98b1-609c5da5faf1",
+    "sound": "/static/sounds/este-k-tym-strukovinam.mp3",
+    "icon": "/static/icons/este-k-tym-strukovinam.png"
   }
 ]

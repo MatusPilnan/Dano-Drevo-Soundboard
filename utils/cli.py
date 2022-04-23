@@ -25,22 +25,32 @@ def load_sounds(sounds_file):
 def create_sound_from_video(
         title: str = typer.Option(..., prompt="Enter sound title"),
         video_file: str = typer.Option(..., prompt="Enter path to video file"),
-        start_sec: float = typer.Option(0, prompt="Enter clip start time", formats=["%d:%d:%f"]),
+        start_time: str = typer.Option("00:00:00", prompt="Enter clip start time", formats=["%d:%d:%f"]),
         duration: float = typer.Option(-1, prompt="Enter duration of the clip, in seconds", show_default=False),
         image: str = None,
+        tweak: bool = False,
         format: str = '.mp3'
     ):
+    """Create a sound from video and add it to the index."""
     video_file = video_file.strip('"')
-    with mp.VideoFileClip(video_file) as video:
+    with mp.VideoFileClip(video_file) as original_video:
+        video = original_video.subclip(t_start=start_time)
         if duration > 0:
-            video = video.subclip(t_start=start_sec, t_end=start_sec + duration)
-        else:
-            video = video.subclip(t_start=start_sec)
+            video = video.subclip(t_end=duration)
 
 
         audio_file = "content/static/sounds/" + slugify(f'{title}') + format
 
         video.audio.write_audiofile(audio_file)
+
+        while tweak and not typer.confirm(f"Audio file saved to {audio_file}. Tweaking done?"):
+            start_time = typer.prompt("Enter clip start time", default=start_time)
+            duration = typer.prompt("Enter duration of the clip, in seconds", default=duration)
+            video = original_video.subclip(t_start=start_time)
+            if duration > 0:
+                video = video.subclip(t_end=duration)
+
+            video.audio.write_audiofile(audio_file)
 
         add_sound(title, file=audio_file, image=image)
 
@@ -53,6 +63,7 @@ def add_sound(
         sounds_file: str = "content/index.json",
         image: str = None
     ):
+    """Add an existing sound file to the list."""
     typer.echo(f"Adding sound {title} to the list...")
     sounds = load_sounds(sounds_file)
 
